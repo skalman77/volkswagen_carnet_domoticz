@@ -17,7 +17,7 @@ from urlparse import urlsplit
 carnet_username ='your username' # VW Car-net registered e-mail address
 carnet_password  = 'your password' # VW Car-net password
 
-#Domoticz Connection Details
+#Domoticz Details
 DOMOTICZ_SERVER = '127.0.0.1' # IP/Hostname to Domoticz Server
 DOM_BATTERY_LEVEL_VALUE = 'IDX' # IDX of Device/Custom percentage sensor
 DOM_RANGE_VALUE = 'IDX' # IDX of Device/Custom Sensor
