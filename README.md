@@ -20,10 +20,9 @@ The following information can be retrieved from CarNet:
 
 ## CarNet control
 The script is also able to start the following functions:
-* Start charging the vehicle
-* Start climatisation
-* Start front windows heating
-* Start rear windows heating
+* Control charging the vehicle
+* Control climatisation
+* Control windows heating
 
 ## Thanks to
 
