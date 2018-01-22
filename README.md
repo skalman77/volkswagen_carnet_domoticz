@@ -21,7 +21,7 @@ The following information can be retrieved from CarNet:
 ## CarNet control
 The script is also able to start the following functions:
 * Control charging the vehicle
-* Control climatisation
+* Climate control
 * Control windows heating
 
 ## Installation instruction
