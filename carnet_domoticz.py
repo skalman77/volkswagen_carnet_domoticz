@@ -14,15 +14,16 @@ import argparse
 from urlparse import urlsplit
 
 #Login details Volkswagen Car-Net
-carnet_username ='your username' # VW Car-net registered e-mail address
-carnet_password  = 'your password' # VW Car-net password
+carnet_username ='Your username' # VW Car-net registered e-mail address
+carnet_password  = 'Your Password' # VW Car-net password
 
-#Domoticz Details
+#Domoticz Connection Details
 DOMOTICZ_SERVER = '127.0.0.1' # IP/Hostname to Domoticz Server
 DOM_BATTERY_LEVEL_VALUE = 'IDX' # IDX of Device/Custom percentage sensor
 DOM_RANGE_VALUE = 'IDX' # IDX of Device/Custom Sensor
 DOM_CHARGE_SWITCH = 'IDX' # IDX of Device/Virtual Switch
 DOM_HEAT_SWITCH = 'IDX' # IDX of Device/Virtual Switch
+DOM_WINDOW_SWITCH = 'IDX' # IDX of Device/Virtual Switch
 
 class VWCarnet(object):
     def __init__(self, args):
@@ -280,15 +281,24 @@ class VWCarnet(object):
 	# Update Domoticz Charge switch with current status
 	CHARGE_STATE = vehicle_data['emanager']['EManager']['rbc']['status']['chargingState']
 	if CHARGE_STATE == 'CHARGING':
-		requests.get('http://' + DOMOTICZ_SERVER + '/json.htm?type=command&param=switchlight&idx=' + DOM_CHARGE_SWITCH + '&switchcmd=On')
+		requests.get('http://' + DOMOTICZ_SERVER + '/json.htm?type=command&param=udevice&idx=' + DOM_CHARGE_SWITCH + '&nvalue=1')
 	else:
-		requests.get('http://' + DOMOTICZ_SERVER + '/json.htm?type=command&param=switchlight&idx=' + DOM_CHARGE_SWITCH + '&switchcmd=Off')
+		requests.get('http://' + DOMOTICZ_SERVER + '/json.htm?type=command&param=udevice&idx=' + DOM_CHARGE_SWITCH + '&nvalue=0')
 
 	# Update Domoticz Heating switch with current value
+	CLIMA_STATE = vehicle_data['emanager']['EManager']['rpc']['status']['climatisationState']
+	if CLIMA_STATE == 'OFF':
+		requests.get('http://' + DOMOTICZ_SERVER + '/json.htm?type=command&param=udevice&idx=' + DOM_HEAT_SWITCH + '&nvalue=0')
+	else:
+		requests.get('http://' + DOMOTICZ_SERVER + '/json.htm?type=command&param=udevice&idx=' + DOM_HEAT_SWITCH + '&nvalue=1')
 
-	# Update Domoticz Rear Windows Heating switch with current value
-
-	# Update Domoticz Front Windows Heating switch with current value
+	# Update Domoticz Windows Heating switch with current value
+	WINDOWHEAT_STATE_FRONT = vehicle_data['emanager']['EManager']['rpc']['status']['windowHeatingStateFront']
+	WINDOWHEAT_STATE_REAR = vehicle_data['emanager']['EManager']['rpc']['status']['windowHeatingStateRear']
+	if WINDOWHEAT_STATE_REAR == 'ON': # Windows heating is ON
+		requests.get('http://' + DOMOTICZ_SERVER + '/json.htm?type=command&param=udevice&idx=' + DOM_WINDOW_SWITCH + '&nvalue=1')
+	else: # If windows heating is off
+		requests.get('http://' + DOMOTICZ_SERVER + '/json.htm?type=command&param=udevice&idx=' + DOM_WINDOW_SWITCH + '&nvalue=0')
 
     def _carnet_print_action(self, resp):
         print('-- Information --')
