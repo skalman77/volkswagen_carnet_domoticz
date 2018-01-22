@@ -24,6 +24,9 @@ The script is also able to start the following functions:
 * Control climatisation
 * Control windows heating
 
+## Installation instruction
+Installation instruction are found in the WiKi.
+
 ## Thanks to
 
 https://github.com/wez3/volkswagen-carnet-client
